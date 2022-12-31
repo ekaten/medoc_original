@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Patients
+{% endblock %}
+
+{% block main %}
+
+<!--DIAGNOSIS AND PRESCRIPTION BUTTONS-->
+
+<div>
+<form action="/add_diagnosis" method="GET">
+    <div class="mb-3">
+        <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD DIAGNOSIS">
+    </div>
+</form>
+
+<form action="/add_prescription" method="GET">
+    <div class="mb-3">
+        <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD PRESCRIPTION">
+    </div>
+</form>
+</div>
+
+<!--LIST OF PATIENTS-->
+
+<h2>Your Patients:</h2>
+
+<form action="/patient_file" method="POST">
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Date Of Birth</b></td>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for connection in list %}
+            <tr>
+                <td>
+                    {{connection['patient_last']}}, {{connection['patient_first']}}
+                </td>
+
+                <td>
+                    {{connection["dob"]}}
+                </td>
+
+                <td>
+                    <div class="mb-3">
+                        <form action="/patient_file" method="POST">
+                            <input  name="patient_id" type="hidden" value="{{connection['patient_id']}}">
+                            <input class="btn btn-primary" type="submit" value="Open">
+                        </form>
+
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+
+
+
+
+
+{% endblock %}

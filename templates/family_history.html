@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Family History
+{% endblock %}
+
+{% block main %}
+
+
+    <h2>Family Medical History</h2>
+
+
+        <form action="/family_history" method="POST">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td><div class="mb-3">
+                            <label for="relation">Family Member</label>
+                            <select autofocus class="form-select mx-auto w-auto" name="relation" id="relation" required>
+                                <option disabled selected value="" > Select from list:</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Father">Father</option>
+                                <option value="Sister">Sister</option>
+                                <option value="Brother">Brother</option>
+                                <option value="Maternal Grandmother">Maternal Grandmother</option>
+                                <option value="Maternal Grandfather">Maternal Grandfather</option>
+                                <option value="Paternal Grandmother">Paternal Grandmother</option>
+                                <option value="Paternal Grandfather">Maternal Grandfather</option>
+
+                                <option value=" "> Other: </option>
+                            </select>
+                        </div></td>
+
+                        <td><div class="mb-3">
+                            <label for="condition">Condition:</label>
+                            <select class="form-select mx-auto w-auto" name="condition" id="condition" required>
+                                <option disabled selected value="">Condition list</option>
+                                {% for condition in conditions%}
+                                <option value="{{ condition['condition']}}" required> {{ condition['condition'] }} </option>
+                                {% endfor %}
+                                <option value=" "> Other: </option>
+                            </select>
+                        </div></td>
+
+                        <td><div class="mb-3">
+                            <label for="details">Details:</label>
+                            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="details" placeholder="Add details" type="text">
+                        </div></td>
+
+
+                        <td>
+                            <label for="submit">  </label>
+                            <div class="mb-3">
+                                <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        </div>
+
+
+
+
+
+        <!--Past Med History table-->
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Family Member</th>
+                        <th>Condition / Details</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in family %}
+                    <tr>
+                        <!--FAMILY MEMBER-->
+                        <td><b> {{person['relation']}} </b></td>
+                        <!--HEALTH CONDITIONS LIST-->
+                        <td>
+                            <table>
+                                {% for case in famhistory %}
+                                    {% if person['relation'] in case['relation'] %}
+                                <tr>
+                                    <td>
+                                        <div class="oneline">
+                                            {{ case['condition'] }}
+                                            {% if case['condition'] != " " and case['details'] %} / {% endif %}
+                                            {{ case['details'] }}
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </table>
+                        </td>
+                        <td>
+                            {% for case in famhistory %}
+                                {% if person['relation'] in case['relation'] %}
+                                    <div class="oneline">
+                                        <form action="/delete_from_fam" method="post">
+                                            <input  name="condition_id" type="hidden" value="{{case['id']}}">
+                                            <input  class="del" type="submit" value="Delete">
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+
+        <!--GO BACK BUTTON-->
+
+        <div class="mb-3" id="left-align">
+            <form action="/back_to_history" method="post">
+                <input class="btn btn-primary" type="submit" value="Back To History">
+            </form>
+        </div>
+
+{% endblock %}

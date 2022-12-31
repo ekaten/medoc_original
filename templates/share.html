@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Share With Provider
+{% endblock %}
+
+{% block main %}
+
+<form action="/shared" method="post">
+
+    <!--SELECT PROVIDER-->
+
+    <h4 class="direcions">1. Select a provider you want to send your information:</h4>
+
+    <div class="mb-3">
+        <select class="form-select mx-auto w-auto" name="provider" id="provider" required>
+            <option disabled selected value="">Select one:</option>
+            <!--List of providers-->
+            {% for connection in connections%}
+            <option required value="{{ connection['provider_id'] }}"> {{connection['provider_title']}} {{connection['provider_first']}}  {{connection['provider_last']}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <h4 class="direcions">2. Check all feilds you want to share with this provider:</h4>
+
+
+<!--PERSONAL INFORMATION TABLE-->
+    <h5 class="title">Personal information:</h5>
+    <table class="table table-striped">
+        <tr>
+            <td><p><b>First Name:</b> {{ info[0]["first"] }} <input hidden type="checkbox" id="first" name="first" value="{{ info[0]['first'] }}" checked></p></td>
+            <td><p><b>Last Name: </b> {{ info[0]["last"]}} <input hidden type="checkbox" id="last" name="last" value="{{ info[0]['last'] }}" checked></p></td>
+            <td><p><b>Date of Birth: </b> {{ info[0]["dob"]}} <input hidden type="checkbox" id="dob" name="dob" value="{{ info[0]['dob'] }}" checked></p></td></p></td>
+            <input hidden type="checkbox" id="patient_id" name="patient_id" value="{{ info[0]['id'] }}" checked>
+        </tr>
+
+        <tr>
+            <td><p><b>Birth Sex: </b> {{ info[0]['sex'] }} <input type="checkbox" id="sex" name="sex" value="{{ info[0]['sex']}}" checked></p></td>
+            <td><p><b>Race: </b> {{ info[0]['race']}} <input type="checkbox" id="race" name="race" value="{{ info[0]['race'] }}" checked></p></td>
+            <td><p><b>Marital Status: </b> {{ info[0]["marital_status"]}} <input type="checkbox" id="marital_status" name="marital_status" value="{{ info[0]['marital_status'] }}" checked></p></td>
+        </tr>
+
+        <tr>
+            <td><p><b>Employment Status: </b> {{ info[0]['employment_status'] }} <input type="checkbox" id="employment_status" name="employment_status" value="{{ info[0]['employment_status'] }}" checked></p></td>
+            <td><p><b>Employer: </b> {{ info[0]['employer']}} <input type="checkbox" id="employer" name="employer" value="{{ info[0]['employer'] }}" checked></p></td>
+            <td><p><b>Ocupation: </b> {{ info[0]['ocupation']}} <input type="checkbox" id="ocupation" name="ocupation" value="{{ info[0]['ocupation'] }}" checked></p></td>
+        </tr>
+    </table>
+
+<!--MEDICAL HISTORY TABLE-->
+
+    <h5 class="title">Your Medical History:</h5>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Condition/ Diagnosis Details</th>
+                <th>Diagnosed By:</th>
+                <th>Date Diagnosed</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <!--Set a counter variable to 0-->
+            {% set counter = [] %}
+
+            <!--Itterate over all conditions in user's records-->
+            {% for condition in records %}
+            <!-- incriment counter by 1-->
+            {% set __ = counter.append(1) %}
+            <tr>
+                <td> <input type="checkbox" name="condition_{{ counter|length }}" value="~®{{condition['condition']}}  •  {{condition['details']}}÷®{{condition['who_diagnosed']}}÷®{{condition['date_diagnosed']}}÷®{{condition['status']}}÷^" checked></td>
+                <td>{{condition['condition']}}
+                        <!--If condition has added details, add "/" between condition and details-->
+                        {% if condition['condition'] != " " and condition['details'] %} / {% endif %}
+                            {{condition['details']}}
+                </td>
+                <td>{{condition['who_diagnosed']}}</td>
+                <td>{{condition['date_diagnosed']}}</td>
+                <td>{{condition['status']}}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+<!--FAMILY HISTORY-->
+    <h5 class="title">Family Medical History:</h5>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Family Member</th>
+                <th>Condition / Details</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!--Set a counter variable to 0-->
+            {% set ctr = [] %}
+
+            <!--Itterate over all conditions in user's records-->
+            {% for case in famhistory %}
+            <!-- incriment counter by 1-->
+            {% set __ = ctr.append(1) %}
+
+            <tr>
+                <td>{{case['relation']}}</td>
+                <td>{{case['condition']}}
+                    <!--If condition has added details, add "/" between condition and details-->
+                    {% if case['condition'] != " " and case['details'] %} / {% endif %}
+                    {{case['details']}}
+                </td>
+                <td>
+                    <td> <input type="checkbox" name="case_{{ctr|length}}" value="~®{{case['relation']}} ÷® {{case['condition']}}  •  {{case['details']}}÷^" checked></td>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!--MEDICATIONS-->
+
+        <h5 class="title">Your Medications:</h5>
+        <div>
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Medication</th>
+                        <th>Dosage/mg</th>
+                        <th>Schedule</th>
+                        <th>Prescriber:</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!--Set a counter variable to 0-->
+                    {% set count = [] %}
+                    <!--Itterate over all conditions in user's records-->
+                    {% for med in meds %}
+                    <!-- incriment counter by 1-->
+                    {% set __ = count.append(1) %}
+
+                    <!--Display one medication and it's dosage/schedule/prescriver per row-->
+                    <tr>
+                        <td><input type="checkbox" name="med_{{count|length}}" value="~®{{ med['medication']}} ÷® {{ med['dosage']}} mg ÷® {{ med['schedule']}} ÷® {{ med['prescriber']}}÷^" checked></td>
+                        <td>{{ med['medication']}}</td>
+                        <td>{{ med['dosage']}} mg</td>
+                        <td>{{ med['schedule']}}</td>
+                        <td>{{ med['prescriber']}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+<!--SUBMIT BUTTON-->
+
+        <div class="mb-3 title">
+            <button class="btn btn-primary" type="submit">Submit to provider</button>
+        </div>
+</form>
+
+
+
+
+{% endblock %}

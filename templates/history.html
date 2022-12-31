@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Medical History
+{% endblock %}
+
+{% block main %}
+
+
+    <h2> Your Medical History</h2>
+
+
+        <!--Past Med History table-->
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Condition : Diagnosis Details</th>
+                        <th>Diagnosed By:</th>
+                        <th>Date Diagnosed</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for condition in records %}
+                    <tr>
+                        <td>{{condition['condition']}}
+                            {% if condition['condition'] != " " and condition['details'] %} /  {% endif %}
+                            {{condition['details']}}</td>
+                        <td>{{condition['who_diagnosed']}}</td>
+                        <td>{{condition['date_diagnosed']}}</td>
+                        <td>{{condition['status']}}</td>
+                        <td>
+                            <div class="mb-3">
+                                <form action="/delete_from_record" method="post">
+                                    <input  name="condition_id" type="hidden" value="{{condition['id']}}">
+                                    <input class="btn btn-primary" type="submit" value="Delete">
+                                </form>
+                            </div>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+        <h4>Add condition:</h4>
+        <form action="/history" method="POST">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td><div class="mb-3">
+                            <label for="condition">Condition:</label>
+                            <select class="form-select mx-auto w-auto" name="condition" id="condition" required>
+                                <option disabled selected value="">Condition list</option>
+                                {% for condition in conditions%}
+                                <option value="{{ condition['condition']}}" required> {{ condition['condition'] }} </option>
+                                {% endfor %}
+                                <option value=" "> Other: </option>
+                            </select>
+                        </div></td>
+
+                        <td><div class="mb-3">
+                            <label for="details">Diagnosis Details:</label>
+                            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="details" placeholder="Add note" type="text">
+                        </div></td>
+
+                        <td><div class="mb-3">
+                            <label for="who_diagnosed">Diagnosed by:</label>
+                            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="who_diagnosed" placeholder="Name" type="text">
+                        </div></td>
+
+                        <td><div class="mb-3">
+                            <label for="date_diagnosed">Diagnosed in:</label>
+                            <input class="form-control mx-auto w-auto" type="date" name="date_diagnosed" id="date_diagnosed">
+                        </div></td>
+
+                        <td>
+                            <div class="mb-3">
+                                <label for="Existing">Existing:</label>
+                                <input type="radio" id="existion" name="status" value="existing" required="required">
+                                <label for="Resolved">Resolved:</label>
+                                <input type="radio" id="resolved" name="status" value="resolved" required="required">
+                            </div>
+                        </td>
+
+                        <td>
+                            <label for="submit">Add to list:</label>
+                            <div class="mb-3">
+                                <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        </div>
+
+
+        <!--GO BACK BUTTON-->
+
+        <div class="mb-3" id="left-align">
+            <form action="/back_to_history" method="post">
+                <input class="btn btn-primary" type="submit" value="Back To History">
+            </form>
+        </div>
+
+{% endblock %}

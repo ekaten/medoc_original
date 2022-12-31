@@ -1,0 +1,117 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xxx-large;
+}
+
+/* Name of the user on the front page */
+
+.username
+{
+    font_weight: bold;
+    color: #0d6efd;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+    color: #0d6efd;
+}
+nav .navbar-brand .greenblue
+{
+    color: #009CF0;
+}
+
+nav .navbar-brand .green
+{
+    color: #6FC8F7;
+}
+
+.oneline
+{
+    margin-bottom: 6px;
+}
+
+.del
+{
+    font-size: 11px;
+}
+
+hr
+{
+    padding: 0;
+    margin: 0;
+}
+
+tr
+{
+    width: 100wp;
+}
+
+
+.sum-title
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
+.sum-div
+{
+    width: 40%;
+    margin-left: 30%;
+    margin-right:30%;
+
+}
+
+#left_align
+{
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    left: 10px;
+}
+
+
+/* Titles in SHARE*/
+.title
+{
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+}
+
+/* Directions in SHARE*/
+
+.direcions
+{
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    width: 100%;
+}
+
+
+/* Container settings in shared form*/
+.flex
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 2rem;
+}
+
+/* margin settings for rach <p> feild in form container */
+.data
+{
+    margin-left: 1rem;
+    margin-right: 1 rem;
+}
+
+/* Contaier of the provider input form*/
+.provider_input
+{
+    width: 50%;
+    margin: auto;
+}

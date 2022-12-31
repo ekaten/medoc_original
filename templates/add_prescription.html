@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Prescription
+{% endblock %}
+
+{% block main %}
+
+<form action="/add_prescription" method="POST">
+
+    <!--SELECT PATIENT-->
+    <h5 class="direcions"> Patient:</h5>
+
+    <div class="mb-3">
+        <select class="form-select mx-auto w-auto" name="patient_id" id="patient_id" required>
+            <option disabled selected value="">Select a patient:</option>
+            <!--List of patients-->
+            {% for patient in patients %}
+            <option required value="{{ patient['patient_id'] }}"> {{ patient['patient_last'] }} , {{ patient['patient_first'] }} , {{ patient["dob"]}} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+<h5>Add Prescribed Medication:</h5>
+<form action="/add_prescription" method="POST">
+    <table class="table table-striped provider_input">
+        <tbody>
+            <tr>
+                <td>
+                    <div class="mb-3">
+                        <label for="medication">Medication Name:</label>
+                        <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="medication" placeholder="Add medication" type="text" required>
+
+                    </div>
+                 </td>
+
+                <td>
+                    <div class="mb-3">
+                        <label for="dosage">Dosage/mg:</label>
+                        <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="dosage" placeholder="0 Mg" type="number" min="0" required>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="mb-3">
+                        <label for="chedule">Schedule:</label>
+                        <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="schedule" placeholder="e.g.: Every 8 hours " type="text" required>
+                    </div>
+                </td>
+
+                    <input hidden class="form-control mx-auto w-auto" autocomplete="off" autofocus name="prescriber" value="{{provider[0]["title"]}} {{provider[0]["last"]}} " type="text">
+
+
+                <td>
+                    <label for="submit"> </label>
+                    <div class="mb-3">
+                    <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD">
+                </div></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Find Provider
+{% endblock %}
+
+{% block main %}
+<h4> Find a provider: </h4>
+    <form action="/find_provider" method="post">
+        <div class="mb-3">
+            <label for="provider_name">Provider's Name:</label>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="provider_name" name="provider_name" placeholder="Name" type="text">
+        </div>
+
+        <div class="mb-3">
+            <label for="specialty">Specialty:</label>
+            <select  autofocus class="form-select mx-auto w-auto" name="specialty" id="specialty">
+                <option disabled selected value="">Select from list</option>
+                <option>Other</option>
+                {% for specialty in specialties %}
+                <option>{{ specialty["specialty"] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">SEARCH</button>
+        </div>
+    </form>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Provider</th>
+                <th>Specialty</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in search %}
+            <tr>
+                <td>{{result['title']}} {{result['first']}} {{result['last']}}</td>
+                <td>{{result['specialty']}}</td>
+                <td>
+                    <div class="mb-3">
+                        <form action="/add_provider" method="post">
+                            <input  name="provider_id" type="hidden" value="{{result['id']}}">
+                            <input  name="provider_title" type="hidden" value="{{result['title']}}">
+                            <input  name="provider_first" type="hidden" value="{{result['first']}}">
+                            <input  name="provider_last" type="hidden" value="{{result['last']}}">
+                            <input  name="specialty" type="hidden" value="{{result['specialty']}}">
+                            <input class="btn btn-primary" type="submit" value="Add Provider">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="/find_provider" method="get">
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">CLEAR SEARCH</button>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Medications
+{% endblock %}
+
+{% block main %}
+
+
+    <h2> Your medications</h2>
+
+
+        <!--Past Med History table-->
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Dosage/mg</th>
+                        <th>Schedule</th>
+                        <th>Prescriber:</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in meds %}
+                    <tr>
+                        <td>{{ med['medication']}}</td>
+                        <td>{{ med['dosage']}} mg</td>
+                        <td>{{ med['schedule']}}</td>
+                        <td>{{ med['prescriber']}}</td>
+                        <td>
+                            <div class="mb-3">
+                                <form action="/delete_from_meds" method="post">
+                                    <input  name="med_id" type="hidden" value="{{med['id']}}">
+                                    <input class="btn btn-primary" type="submit" value="Delete">
+                                </form>
+                            </div>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+
+ <!--FORM TO ADD MEDICATION-->
+
+        <h4>Add medication:</h4>
+        <form action="/medications" method="POST">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="mb-3">
+                                <label for="medication">Medication Name:</label>
+                                <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="medication" placeholder="Add medication" type="text" required>
+
+                            </div>
+                         </td>
+
+                        <td>
+                            <div class="mb-3">
+                                <label for="dosage">Dosage/mg:</label>
+                                <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="dosage" placeholder="0 Mg" type="number" min="0" required>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="mb-3">
+                                <label for="chedule">Schedule:</label>
+                                <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="schedule" placeholder="e.g.: Every 8 hours " type="text" required>
+                            </div>
+                        </td>
+
+                        <td><div class="mb-3">
+                            <label for="prescriber">Prescribed by:</label>
+                            <input class="form-control mx-auto w-auto" autocomplete="off" autofocus name="prescriber" placeholder="Name" type="text">
+                        </div></td>
+
+                        <td>
+                            <label for="submit">Add to list:</label>
+                            <div class="mb-3">
+                            <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD">
+                        </div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        </div>
+
+        <!--GO BACK BUTTON-->
+
+        <div class="mb-3" id="left-align">
+            <form action="/back_to_history" method="post">
+                <input class="btn btn-primary" type="submit" value="Back To History">
+            </form>
+        </div>
+
+
+
+{% endblock %}

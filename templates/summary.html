@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Profile
+{% endblock %}
+
+{% block main %}
+
+<div class="sum-div">
+    <div class="sum-title">
+        <h2 class="">General Information</h2>
+        <form action="/info" method="GET">
+            <div class="mb-3">
+                <button class="btn btn-primary" type="submit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<table class="table table-striped">
+    <tr>
+        <td><p><b>First Name:</b> {{ info[0]["first"] }}</p></td>
+        <td><p><b>Last Name: </b> {{ info[0]["last"]}}</p></td>
+        <td><p><b>Date of Birth: </b> {{ info[0]["dob"]}}</p></td>
+    </tr>
+    <tr>
+        <td><p><b>Birth Sex: </b> {{ info[0]["sex"] }}</p></td>
+        <td><p><b>Race: </b> {{ info[0]["race"]}}</p></td>
+        <td><p><b>Marital Status: </b> {{ info[0]["marital_status"]}}</p></td>
+    </tr>
+    <tr>
+        <td><p><b>Employment Status: </b> {{ info[0]["employment_status"] }}</p></td>
+        <td><p><b>Employer: </b> {{ info[0]["employer"]}}</p></td>
+        <td><p><b>Ocupation: </b> {{ info[0]["ocupation"]}}</p></td>
+    </tr>
+</table>
+
+
+
+
+        <!--MEDICATIONS-->
+        <div class="sum-div">
+            <div class="sum-title">
+                <h2 class="">Your Medications</h2>
+                <form action="/medications" method="GET">
+                    <div class="mb-3" id="right_align">
+                        <button class="btn btn-primary" type="submit">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h2> </h2>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Dosage/mg</th>
+                        <th>Schedule</th>
+                        <th>Prescriber:</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in meds %}
+                    <tr>
+                        <td>{{ med['medication']}}</td>
+                        <td>{{ med['dosage']}} mg</td>
+                        <td>{{ med['schedule']}}</td>
+                        <td>{{ med['prescriber']}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+
+
+
+
+
+
+
+
+
+
+<!--USER'S MEDICAL HISTORY-->
+<div class="sum-div">
+    <div class="sum-title">
+        <h2 class="">Your Medical History</h2>
+        <form action="/history" method="GET">
+            <div class="mb-3" id="right_align">
+                <button class="btn btn-primary" type="submit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Condition/ Diagnosis Details</th>
+                        <th>Diagnosed By:</th>
+                        <th>Date Diagnosed</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for condition in records %}
+                    <tr>
+                        <td>{{condition['condition']}}
+                            {% if condition['condition'] != " " and condition['details'] %} / {% endif %}
+                            {{condition['details']}}</td>
+                        <td>{{condition['who_diagnosed']}}</td>
+                        <td>{{condition['date_diagnosed']}}</td>
+                        <td>{{condition['status']}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+
+
+
+
+
+
+
+        <!--FAMILY HISTORY-->
+        <div class="sum-div">
+            <div class="sum-title">
+                <h2> Family Medical History</h2>
+                <form action="/family_history" method="GET">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Family Member:</th>
+                        <th>Conditions/ Details</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for person in family %}
+                    <tr>
+                        <td>{{person['relation']}}</td>
+                        <td>{% for case in famhistory %}
+                                {% if person['relation'] in case['relation'] %}
+                                    <p>{{ case['condition'] }}
+                                        {% if case['condition'] != " " and case['details'] %} / {% endif %}
+                                        {{ case['details'] }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+                </table>
+        </div>
+
+
+
+{% endblock %}

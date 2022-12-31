@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Providers
+{% endblock %}
+
+{% block main %}
+
+<h2>Your Authorized Providers:</h2>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Specialty</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for connection in list %}
+            <tr>
+                <td>
+                    {{connection['provider_title']}} {{connection['provider_first']}} {{connection['provider_last']}}
+                </td>
+                <td>
+                    {{connection["specialty"]}}
+                </td>
+
+                <td>
+                    <div class="mb-3">
+                        <form action="/providers" method="POST">
+                            <input  name="id" type="hidden" value="{{connection['id']}}">
+                            <input class="btn btn-primary" type="submit" value="Remove">
+                        </form>
+
+                    </div>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div class="mb-3">
+    <form action="/share" method="GET">
+        <input class="btn btn-primary" type="submit" value="Share Records">
+    </form>
+</div>
+
+{% endblock %}

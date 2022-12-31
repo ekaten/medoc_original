@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Provider Portal
+{% endblock %}
+
+{% block username %} You are logged in as {{user[0]["title"]}} {{ user[0]["first"] }} {{ user[0]["last"] }} {% endblock %}
+
+{% block main %}
+
+<h4 class="username">{{user[0]["title"]}} {{ user[0]["first"] }} {{ user[0]["last"] }},</h4>
+<h5 "> Welcome to your Provider Portal!</h5>
+
+<div class="flex title">
+    <form action="/provider_profile" method="get">
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">  Your Profile </button>
+        </div>
+    </form>
+
+    <form action="/patients" method="get">
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Your Patients</button>
+        </div>
+    </form>
+
+    <form action="/add_diagnosis" method="get">
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Add Prescription</button>
+        </div>
+    </form>
+
+    <form action="/add_prescription" method="GET">
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Add Diagnosis</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Shared With Provider
+{% endblock %}
+
+
+{% block main %}
+<h8 class="title"> Health Records shared by {{patient[0]["title"]}} {{patient[0]["first"]}} {{patient[0]["last"]}} with {{provider[0]["title"]}} {{provider[0]["first"]}} {{provider[0]["last"]}}:</h8>
+
+
+<!--PATIENT'S INFORMATION-->
+<h5 class="title"><b>Patient:</b></h5>
+<table class="table table-striped">
+    <tr>
+        <td>First Name:<h5>{{ patient[0]["first"] }}</h5></td>
+        <td>Last Name: <h5>{{ patient[0]["last"]}}</h5></td>
+        <td>Date of Birth: <h5>{{ patient[0]["dob"]}}</h5> </td>
+    </tr>
+</table>
+
+<div class="flex">
+    <!--If a data field is in database (was selected), display it in the form-->
+    {% if connection[0]['sex'] != "" and connection[0]['sex'] != NULL %}
+    <p class="data"><b>Sex: </b> {{ connection[0]["sex"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["race"] != "" and connection[0]["race"] != NULL %}
+    <p class="data"><b>Race: </b> {{ connection[0]["race"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["marital_status"] != "" and connection[0]["marital_status"] != NULL %}
+    <p class="data"><b>Marital Status: </b> {{ connection[0]["marital_status"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["employment_status"] != "" and connection[0]["employment_status"] != NULL %}
+    <p class="data"><b>Employment Status: </b> {{ connection[0]["employment_status"]}}</p>
+    {% endif %}
+
+    {% if connection[0]['employer'] != "" and connection[0]['employer'] != NULL %}
+    <p class="data"><b>Employer: </b> {{ connection[0]["employer"]}}</p>
+    {% endif %}
+
+    {% if connection[0]['ocupation'] != "" and connection[0]['ocupation'] != NULL %}
+    <p class="data"><b>Ocupation: </b> {{ connection[0]['ocupation']}}</p>
+    {% endif %}
+</div>
+
+
+
+<!--MEDICAL HISTORY TABLE-->
+<h5 class="title"><b>{{ patient[0]["first"] }}'s Medical History:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>Condition • Details</b></td>
+            <td><b>Diagnosed By:</b></td>
+            <td><b>Date Diagnosed:</b></td>
+            <td><b>Status:</b></td>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['conditions'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+         </tr>
+    </tbody>
+</table>
+
+<!--MEDICATIONS TABLE-->
+<h5 class="title"><b>{{ patient[0]["first"] }}'s Medications:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>Medication:</b></td>
+            <td><b>Dosage:</b></td>
+            <td><b>Schedule:</b></td>
+            <td><b>Prescribed by:</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['meds'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+        </tr>
+    </tbody>
+</table>
+
+
+<!--FAMILY HISTORY TABLE-->
+<h5 class="title"><b> Family Medical History:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td></td>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['family'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+        </tr>
+    </tbody>
+</table>
+
+
+
+{% endblock %}
+
+

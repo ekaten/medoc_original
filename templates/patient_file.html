@@ -1,0 +1,276 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Patient File
+{% endblock %}
+
+
+{% block main %}
+<h8 class="title"> Health Records shared by {{patient[0]["title"]}} {{patient[0]["first"]}} {{patient[0]["last"]}}  with {{provider[0]["title"]}} {{provider[0]["first"]}} {{provider[0]["last"]}} :</h8>
+
+
+<!--PATIENT'S INFORMATION-->
+<h5 class="title"><b>Patient:</b></h5>
+<table class="table table-striped">
+    <tr>
+        <td>First Name:<h5>{{patient[0]["first"]}}</h5></td>
+        <td>Last Name: <h5>{{patient[0]["last"]}}</h5></td>
+        <td>Date of Birth: <h5>{{patient[0]["dob"]}}</h5> </td>
+    </tr>
+</table>
+
+<div class="flex">
+    <!--IF PATIENT SHARED SOME OR ALL OF THIS INFORMATION-->
+    {% if connection[0]["sex"] or connection[0]["race"] or connection[0]["marital_status"] or connection[0]["employment_status"] or connection[0]["employer"] or connection[0]["ocupation"] %}
+    <!--If a data field is in database (was selected), display it in the form-->
+    {% if connection[0]['sex'] != "" and connection[0]['sex'] != NULL %}
+    <p class="data"><b>Sex: </b> {{ connection[0]["sex"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["race"] != "" and connection[0]["race"] != NULL %}
+    <p class="data"><b>Race: </b> {{ connection[0]["race"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["marital_status"] != "" and connection[0]["marital_status"] != NULL %}
+    <p class="data"><b>Marital Status: </b> {{ connection[0]["marital_status"]}}</p>
+    {% endif %}
+
+    {% if connection[0]["employment_status"] != "" and connection[0]["employment_status"] != NULL %}
+    <p class="data"><b>Employment Status: </b> {{ connection[0]["employment_status"]}}</p>
+    {% endif %}
+
+    {% if connection[0]['employer'] != "" and connection[0]['employer'] != NULL %}
+    <p class="data"><b>Employer: </b> {{ connection[0]["employer"]}}</p>
+    {% endif %}
+
+    {% if connection[0]['ocupation'] != "" and connection[0]['ocupation'] != NULL %}
+    <p class="data"><b>Ocupation: </b> {{ connection[0]['ocupation']}}</p>
+    {% endif %}
+
+    <!--IF PATIENT HASN'T SHARED THIS INFORMATION-->
+    {% else %}
+    <p><b></b></p>
+    {% endif %}
+</div>
+
+<!--MEDICAL HISTORY TABLE-->
+<h5 class="title"><b>{{ patient[0]["first"] }}'s Medical History:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>Condition • Details</b></td>
+            <td><b>Diagnosed By:</b></td>
+            <td><b>Date Diagnosed:</b></td>
+            <td><b>Status:</b></td>
+        </tr>
+    </thead>
+
+    <tbody>
+
+            <!--IF PATIENT ADDED ANY MEDICAL HISTORY-->
+            {% if connection[0]["conditions"] %}
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['conditions'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+                        <!--IF PATIENT HASN'T SHARED MEDICAL HISTORY-->
+                        {% else %}
+                        <p><b>Patient hasn't shared this information.</b></p>
+                        {% endif %}
+
+
+         <tr>
+            {% for diagnosis in diagnosed %}
+        <tr>
+            <td>{{diagnosis["condition"]}} • {{diagnosis["details"]}}</td>
+            <td>{{diagnosis["who_diagnosed"]}}</td>
+            <td>{{diagnosis["date_diagnosed"]}}</td>
+            <td>{{diagnosis["status"]}}</td>
+            <td>
+                <div class="oneline">
+                <form action="/delete_from_patient_record" method="post">
+                    <input  name="condition_id" type="hidden" value="{{diagnosis['id']}}">
+                    <input class="del" type="submit" value="Delete">
+                </form>
+            </div>
+        </td>
+        </tr>
+        {% endfor %}
+         </tr>
+    </tbody>
+</table>
+
+<!--DIAGNOSIS THAT THIS PROVIDER ADDED-->
+
+
+<h5>Add your diagnosis:</h5>
+<form action="/add_diagnosis" method="GET">
+    <div class="mb-3">
+        <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD DIAGNOSIS">
+    </div>
+</form>
+
+
+<!--MEDICATIONS TABLE-->
+<h5 class="title"><b>{{ patient[0]["first"] }}'s Medications:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>Medication:</b></td>
+            <td><b>Dosage:</b></td>
+            <td><b>Schedule:</b></td>
+            <td><b>Prescribed by:</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <!--IF PATIENT SHARED THIS INFORMATION-->
+            {% if connection[0]['meds'] %}
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['meds'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+
+                        <!--IF PATIENT HASN'T SHARED IT YET-->
+                        {% else %}
+                        <p><b>Patient hasn't shared this information.</b></p>
+                        {% endif %}
+        </tr>
+        {% for prescription in prescribed %}
+        <tr>
+            <td>{{prescription["medication"]}}</td>
+            <td>{{prescription["dosage"]}}</td>
+            <td>{{prescription["schedule"]}}</td>
+            <td>{{prescription["prescriber"]}}</td>
+            <td>
+                <div class="oneline">
+                <form action="/delete_from_patient_meds" method="post">
+                    <input  name="prescription_id" type="hidden" value="{{prescription['id']}}">
+                    <input class="del" type="submit" value="Delete">
+                </form>
+            </div>
+        </td>
+        </tr>
+        {% endfor %}
+         </tr>
+    </tbody>
+</table>
+
+<h5>Add Prescription:</h5>
+<form action="/add_prescription" method="GET">
+    <div class="mb-3">
+        <input class="btn btn-primary" class="form-control mx-auto w-auto" type="submit" value="ADD PRESCRIPTION">
+    </div>
+</form>
+
+
+
+
+<!--FAMILY HISTORY TABLE-->
+<h5 class="title"><b> Family Medical History:</b></h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td><b>Family Member</b></td>
+            <td><b>Condition • Details</b></td>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <!--IF PATIENT SHARED THIS INFORMATION-->
+            {% if connection[0]['family'] %}
+
+            <!--Itterate over charachters of the string-->
+            {%- for char in connection[0]['family'] -%}
+
+                            {%  if char == "~" %}
+                                {% set char = "" %}
+                                <tr>
+                            {%- endif -%}
+
+
+                            {%  if char == "®" %}
+                                {% set char = "" %}
+                                <td>
+                            {%- endif -%}
+
+
+                            {%  if char == "÷" %}
+                                {% set char = "" %}
+                                </td>
+                            {%- endif -%}
+
+
+                            {%  if char == "^" %}
+                                {% set char = "" %}
+                                </tr>
+                            {%- endif -%}
+
+
+                            {{char}}
+                        {%- endfor -%}
+
+                        <!--IF PATIENT HASN'T SHARED THIS INFORMATION-->
+                        {% else %}
+                        <p><b>Patient hasn't shared this information.</b></p>
+
+                        {% endif %}
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
+
+

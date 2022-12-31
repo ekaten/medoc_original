@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Provider's Profile
+{% endblock %}
+
+{% block main %}
+<h2> General Information</h2>
+<form action="/provider_profile" method="POST">
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Update your information</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <label for="title">Title</label>
+                        <select  autofocus class="form-select mx-auto w-auto" name="title" id="title">
+                            <option selected value="{{provider[0]['title']}}">{{provider[0]['title']}}</option>
+                            <option value="Mr.">Mr</option>
+                            <option value="Mrs.">Mrs</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms.">Ms</option>
+                            <option value="Dr.">Dr</option>
+                            <option value="">None</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <label for="first">First Name</label>
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" id="first" name="first" type="text" value="{{provider[0]['first']}}">
+                        </div>
+                    </td>
+
+                    <td>
+                        <label for="last">Last Name</label>
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" id="last" name="last" type="text" value="{{provider[0]['last']}}">
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <div class="mb-3">
+                            <label for="specialty">Specialty:</label>
+                            <select  autofocus class="form-select mx-auto w-auto" name="specialty" id="specialty">
+                                <option selected value="{{provider[0]['specialty']}}">{{provider[0]['specialty']}}</option>
+                                {% for specialty in specialties %}
+                                <option>{{ specialty["specialty"] }}</option>
+                                {% endfor %}
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        {% if provider[0]['specialty'] == 'Other' %}
+                        <label for="last">Add Specialty:</label>
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" id="last" name="add_specialty" type="text" placeholder="Your Specialty:">
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <label for="sex">Gender:</label>
+
+                            <select  autofocus class="form-select mx-auto w-auto" name="sex" id="sex" required>
+
+                                {% if provider[0]["sex"] == NULL %}
+                                <option disabled selected value="{{provider[0]['sex']}}">Options:</option>
+                                {% else %}
+                                <option selected value="{{provider[0]['sex']}}">{{provider[0]['sex']}}</option>
+                                {% endif %}
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Unknown">Unknown</option>
+                                <option value="Other">Other</option>
+                                <option value="Perfer not to say">Prefer not to say</option>
+                            </select>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">SAVE</button>
+    </div>
+    </form>
+
+{% endblock %}

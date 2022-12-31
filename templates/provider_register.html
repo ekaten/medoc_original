@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register as a Provider
+{% endblock %}
+
+{% block main %}
+    <form action="/register_provider" method="post">
+        <div class="mb-3">
+            <select  autofocus class="form-select mx-auto w-auto" name="title" id="title">
+                <option disabled selected value=" ">Title:</option>
+                <option value="Mr.">Mr</option>
+                <option value="Mrs.">Mrs</option>
+                <option value="Miss">Miss</option>
+                <option value="Ms.">Ms</option>
+                <option value="Dr.">Dr</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="firstname" name="firstname" placeholder="First Name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="lastname" name="lastname" placeholder="Last Name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <select  autofocus class="form-select mx-auto w-auto" name="specialty" id="specialty">
+                <option disabled selected value=" ">Specialty:</option>
+                {% for specialty in specialties %}
+                <option>{{ specialty["specialty"] }}</option>
+                {% endfor %}
+                <option>Other</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password" required>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm Password" type="password" required>
+        </div>
+        <div>
+            <input name="usertype" type="hidden" value="Provider">
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}

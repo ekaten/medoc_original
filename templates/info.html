@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Personal Information
+{% endblock %}
+
+{% block main %}
+<h2> Personal Information</h2>
+<form action="/info" method="POST">
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Update your information</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <label for="title">Title</label>
+                        <select  autofocus class="form-select mx-auto w-auto" name="title" id="title">
+                            <option selected value="{{current[0]['title']}}">{{current[0]['title']}}</option>
+                            <option value="Mr.">Mr</option>
+                            <option value="Mrs.">Mrs</option>
+                            <option value="Miss">Miss</option>
+                            <option value="Ms.">Ms</option>
+                            <option value="Dr.">Dr</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <label for="first">First Name</label>
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" id="first" name="first" type="text" value="{{current[0]['first']}}">
+                        </div>
+                    </td>
+
+                    <td>
+                        <label for="last">Last Name</label>
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control mx-auto w-auto" id="last" name="last" type="text" value="{{current[0]['last']}}">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="sex">Birth Sex</label>
+
+                            <select  autofocus class="form-select mx-auto w-auto" name="sex" id="sex" required>
+                                <option selected value="{{current[0]['sex']}}">{{current[0]['sex']}}</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Unknown">Unknown</option>
+                                <option value="Other">Other</option>
+                                <option value="Perfer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <label for="marital_status">Marital Status</label>
+                        <div class="mb-3">
+                            <select  autofocus class="form-select mx-auto w-auto" name="marital_status" id="marital_status">
+                                <option selected value="{{current[0]['marital_status']}}">{{current[0]['marital_status']}}</option>
+                                <option value="Maried">Maried</option>
+                                <option value="Single">Single</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Separated">Separated</option>
+                                <option value="Widowed">Widowed</option>
+                                <option value="Other">Other</option>
+                                <option value="Perfer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <label for="Race">Race</label>
+                        <div class="mb-3">
+                            <select  autofocus class="form-select mx-auto w-auto" name="race" id="race">
+                                <option selected value="{{current[0]['race']}}">{{current[0]['race']}}</option>
+                                <option value="American Indian/Alaska Native">American Indian/Alaska Native</option>
+                                <option value="Asian">Asian</option>
+                                <option value="Black">Black or African American</option>
+                                <option value="Hispanic">Hispanic</option>
+                                <option value="Multiple races">Multiple races</option>
+                                <option value="Native Hawaiian/Other Pacific Islander">Native Hawaiian/Other Pacific Islander</option>
+                                <option value="White">White</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    <label for="Employment">Employment Status</label>
+                    <div class="mb-3">
+                        <select  autofocus class="form-select mx-auto w-auto" name="employment" id="employment">
+                            <option selected value="{{current[0]['employment_status']}}">{{current[0]['employment_status']}}</option>
+                            <option value="Employed">Employed</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                </td>
+
+                <td>
+                    <label for="Ocupation">Ocupation</label>
+                    <div class="mb-3">
+                        <input autocomplete="off" class="form-control mx-auto w-auto" id="ocupation" name="ocupation" type="text" value="{{current[0]['ocupation']}}">
+                    </div>
+                </td>
+
+                <td>
+                    <label for="employer">Employer</label>
+                    <div class="mb-3">
+                        <input autocomplete="off" class="form-control mx-auto w-auto" id="employer" name="employer" type="text" value="{{current[0]['employer']}}">
+                    </div>
+                </td>
+
+            </tr>
+
+
+            </tbody>
+
+        </table>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">SAVE</button>
+    </div>
+    </form>
+
+{% endblock %}
