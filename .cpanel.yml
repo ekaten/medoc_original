@@ -1,0 +1,18 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/ekatiuvs/MEDOC/
+    - /bin/cp app.py $DEPLOYPATH
+    - /bin/cp helpers.py $DEPLOYPATH
+    - /bin/cp medoc.db $DEPLOYPATH
+    - /bin/cp requirements.txt $DEPLOYPATH
+    - /bin/cp -R flask_session $DEPLOYPATH
+    - /bin/cp -R static $DEPLOYPATH
+    - /bin/cp -R templates $DEPLOYPATH
+    - /bin/cp -R venv $DEPLOYPATH
+    
+
+
+
+
+
